@@ -28,7 +28,6 @@ function generateNumber() {
         //put the number in the array
         arrNewNumbers.push(number)
     }
-    console.log(arrNewNumbers)
     return arrNewNumbers
 }
 
@@ -47,8 +46,8 @@ function printOnScreen(arr) {
 
 //set instructions for play button
 btnEl.addEventListener('click', function() {
-    document.querySelectorAll('span').innerHTML = ''
-    printOnScreen(generateNumber())
+    //document.querySelectorAll('span').innerHTML = ''
+    printOnScreen(randomNumbers)
     let timeToWait = setTimeout(function() {
         firstNumber.style.display = 'none'
         secondNumber.style.display = 'none'
