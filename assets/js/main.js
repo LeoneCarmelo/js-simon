@@ -32,6 +32,7 @@ function generateNumber() {
     return arrNewNumbers
 }
 
+const randomNumbers = generateNumber()
 /**
  * print every single number of the array on screen
  * @param {generateNumber()} arr 
@@ -43,24 +44,81 @@ function printOnScreen(arr) {
     }
 }
 
+
 //set instructions for play button
 btnEl.addEventListener('click', function() {
+    document.querySelectorAll('span').innerHTML = ''
     printOnScreen(generateNumber())
-    let seconds = 30
-    pEl = document.createElement('p')
-    pEl.textContent = seconds
-    btnEl.insertAdjacentElement('afterend', pEl)
-    let myTime = setTimeout(function() {
-        if (Number(pEl.textContent) === 0) {
-            clearTimeout(myTime)
-            pEl.textContent = ''
-            firstNumber.style.display = 'none'
-            secondNumber.style.display = 'none'
-            thirdNumber.style.display = 'none'
-            fourthNumber.style.display = 'none'
-            fifthNumber.style.display = 'none'
-        } else {
-            Number(pEl.textContent--)
-        }
-    }, 1000)
+    let timeToWait = setTimeout(function() {
+        firstNumber.style.display = 'none'
+        secondNumber.style.display = 'none'
+        thirdNumber.style.display = 'none'
+        fourthNumber.style.display = 'none'
+        fifthNumber.style.display = 'none'
+    }, 3000)
+    questionComparePrint()
 })
+
+function questionComparePrint() {
+    let questions = setTimeout(function() {
+        const userNumbers = getUserNumbers()
+        const numbersFound = compareArray(randomNumbers, userNumbers)
+        //select an element where to show the result
+        const resultEl = document.createElement('p')
+        document.querySelector('.row').insertAdjacentElement('afterend', resultEl)
+        //print result
+        printResult(numbersFound, resultEl)
+    }, 5000)
+}
+
+//ask to the user 5 numbers
+function getUserNumbers() {
+    const numbers = []
+    while (numbers.length < 5) {
+        let number = Number(prompt('Type a number'))
+        if (!numbers.includes(number)) {
+            numbers.push(number)
+        } else {
+           alert('Type another different number')
+        }
+    }
+    return numbers
+}
+
+//compare the arrays
+/**
+ * 
+ * @param {array with random numbers} arr1 
+ * @param {array of number generated from the user*} arr2 
+ * @returns 
+ */
+function compareArray(arr1, arr2) {
+    const numbersFound = []
+    // loop on the first array
+    for (let i = 0; i < arr1.length; i++) {
+        // take the element 
+        const number = arr1[i]
+        //check if arr2 includes the element of arr1
+        if (arr2.includes(number)) {
+            //true? push in the numbersFound array
+            numbersFound.push(number)
+        }
+    }
+
+    return numbersFound
+}
+
+//result
+/**
+ * 
+ * @param {array with numbers found} numbersFound 
+ * @param {element from dom} domEl 
+ */
+function printResult(numbersFound, domEl) {
+    if(numbersFound.length > 0) {
+
+        domEl.innerHTML = `You found ${numbersFound.length} numbers! Numbers found: ${numbersFound}`
+    } else {
+        domEl.innerHTML = `Sorry, try again!`
+    }
+}
