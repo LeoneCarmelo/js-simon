@@ -18,18 +18,49 @@ const arrNumbers = [firstNumber, secondNumber, thirdNumber, fourthNumber, fifthN
 
 // set a function that generates a number
 function generateNumber() {
-    let number = Math.floor(Math.random() * 10)
-    return number
+    //create an array to save the random numbers
+    const arrNewNumbers = []
+    // create a while loop to put the 5 numbers into the array
+    while (arrNewNumbers.length < 5) {
+        const number = Math.ceil(Math.random() * 100)
+        //check if the number is already included in the array
+        if(!arrNewNumbers.includes(number))
+        //put the number in the array
+        arrNewNumbers.push(number)
+    }
+    console.log(arrNewNumbers)
+    return arrNewNumbers
 }
 
-//set a function that put the number inside the element
-function insertNumber() {
-    for(let i = 0; i < arrNumbers.length; i++) {
-    arrNumbers[i].textContent = generateNumber()
+/**
+ * print every single number of the array on screen
+ * @param {generateNumber()} arr 
+ */
+function printOnScreen(arr) {
+    for (let i = 0; i < arr.length; i++) {
+        arrNumbers[i].textContent = arr[i]
+
     }
 }
 
 //set instructions for play button
 btnEl.addEventListener('click', function() {
-    insertNumber()
+    printOnScreen(generateNumber())
+    let seconds = 30
+    pEl = document.createElement('p')
+    pEl.textContent = seconds
+    btnEl.insertAdjacentElement('afterend', pEl)
+    let myTime = setTimeout(function() {
+        if (Number(pEl.textContent) === 0) {
+            clearTimeout(myTime)
+            pEl.textContent = ''
+            firstNumber.style.display = 'none'
+            secondNumber.style.display = 'none'
+            thirdNumber.style.display = 'none'
+            fourthNumber.style.display = 'none'
+            fifthNumber.style.display = 'none'
+        } else {
+            Number(pEl.textContent--)
+        }
+    }, 1000)
 })
